@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/react-ticket-slip-project/static/css/main.a49adb94.css",
-    "main.js": "/react-ticket-slip-project/static/js/main.60a3d82f.js",
+    "main.js": "/react-ticket-slip-project/static/js/main.6208cd5e.js",
     "static/js/787.2434a8b5.chunk.js": "/react-ticket-slip-project/static/js/787.2434a8b5.chunk.js",
     "static/media/courier.jpg": "/react-ticket-slip-project/static/media/courier.98139e6326bcfd834002.jpg",
     "static/media/alert.mp3": "/react-ticket-slip-project/static/media/alert.c225090169354b08b471.mp3",
     "index.html": "/react-ticket-slip-project/index.html",
     "main.a49adb94.css.map": "/react-ticket-slip-project/static/css/main.a49adb94.css.map",
-    "main.60a3d82f.js.map": "/react-ticket-slip-project/static/js/main.60a3d82f.js.map",
+    "main.6208cd5e.js.map": "/react-ticket-slip-project/static/js/main.6208cd5e.js.map",
     "787.2434a8b5.chunk.js.map": "/react-ticket-slip-project/static/js/787.2434a8b5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a49adb94.css",
-    "static/js/main.60a3d82f.js"
+    "static/js/main.6208cd5e.js"
   ]
 }
