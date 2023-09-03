@@ -10,28 +10,44 @@ const RouteList = ({ routes }) => {
     <Row >
     <Col span={16} className="container distanceList p-3">
       <Row gutter={[16, 16]}>  
-          <Col span={8}>
+          <Col span={6}  className="text-center">
             <span className="text-white">Başlangıç Konumu</span>
           </Col>
-          <Col span={8}>
+          <Col span={6}  className="text-center">
             <span className="text-white">Varış Konumu</span>
           </Col>
-          <Col span={8}>
+          <Col span={2}  className="text-center">
             <span className="text-white">Mesafe</span>
             </Col>
+          <Col span={2} className="text-center" >
+            <span className="text-white ">Süre</span>
+          </Col>
+          <Col span={4} className="text-center" >
+            <span className="text-white ">Başlangıç/Bitiş</span>
+          </Col>
+          <Col span={4} >
+            <span className="text-white">Konum</span>
+          </Col>
             </Row>
       {routes.map((route, index) => (
         <Row gutter={[16, 16]} className="mt-3" key={index}>
-          <Col className="m-auto" span={8}>
+          <Col className="m-auto" span={6}>
             <span className="map-item">{route.origin}</span>
           </Col>
-          <Col className="m-auto" span={8}>
+          <Col className="m-auto" span={6}>
             <span className="map-item">{route.destination}</span>
           </Col>
-          <Col className="m-auto" span={4}>
+          <Col className="m-auto" span={2}>
             <span className={`map-item ${mapOptionsClassName}`}>{   route.distance
             }
             </span>
+            </Col>
+            <Col className="m-auto text-center" span={2}> {/* zaman*/}
+         
+            <span className="text-white" id={`countdown-${route.id}`} ></span>
+            </Col>
+            <Col  span={4}  className="m-auto text-center">
+            <p className="text-white " id={`time-info-${route.id}`}></p>
             </Col>
             <Col span={4}>
             <button

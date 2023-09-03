@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/react-ticket-slip-project/static/css/main.a49adb94.css",
+    "main.js": "/react-ticket-slip-project/static/js/main.cc375d86.js",
+    "static/js/787.2434a8b5.chunk.js": "/react-ticket-slip-project/static/js/787.2434a8b5.chunk.js",
+    "static/media/courier.jpg": "/react-ticket-slip-project/static/media/courier.98139e6326bcfd834002.jpg",
+    "index.html": "/react-ticket-slip-project/index.html",
+    "main.a49adb94.css.map": "/react-ticket-slip-project/static/css/main.a49adb94.css.map",
+    "main.cc375d86.js.map": "/react-ticket-slip-project/static/js/main.cc375d86.js.map",
+    "787.2434a8b5.chunk.js.map": "/react-ticket-slip-project/static/js/787.2434a8b5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a49adb94.css",
+    "static/js/main.cc375d86.js"
+  ]
+}
