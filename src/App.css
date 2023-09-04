@@ -56,11 +56,10 @@ z-index: 1;
 }
 .distanceList{
   min-height: 200px;
-  max-height:800px;
   background-color:#302c53;
   opacity: 0.95;
   width: 80%;
-  padding: 20px;
+  padding: 25px;
   margin: inherit;
   margin-top: 10px;
   border-radius: 5px;
@@ -94,7 +93,7 @@ z-index: 1;
 .custom-information{
   position: absolute;
   right: 10px;
-  bottom: 0;
+  bottom: 5px;
   color: white;
 }
 
