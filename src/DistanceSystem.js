@@ -8,6 +8,7 @@ function countdown(routeId) {
   var startTime = new Date().getTime();
   var endTime = startTime + 1 * 11 * 1000;
   var interval;
+  var sound = new Audio(audio);
   function updateTimer() {
     var currentTime = new Date().getTime();
     var remainingTime = endTime - currentTime;
@@ -18,7 +19,6 @@ function countdown(routeId) {
         return;
       }
       else{
-      var sound = new Audio(audio);
       sound.play();
       alert("Varış Zamanı Doldu!");
     }
@@ -54,7 +54,7 @@ const DistanceSystem = () => {
     const options = {
       componentRestrictions: { country: "tr" },
       fields: ["geometry", "name","address_components","formatted_address"],
-      types: ["geocode"],
+      types: ["geocode"]
      };
     const service = new window.google.maps.places.AutocompleteService(options);
    
@@ -108,7 +108,7 @@ const DistanceSystem = () => {
             origin: origin,
             destination: destination,
             distance: newDistance,
-            id: Date.now(),
+            id: Date.now(), 
           };
           setRoutes((prevRoutes) => [...prevRoutes, newRoute]);
           setDistance(newDistance);
@@ -127,6 +127,11 @@ const DistanceSystem = () => {
     setRoutes([]);
    
   };
+  function clearCountdowns() {
+
+  
+  }
+
   return (
     <div className="map p-0" onClick={handleMapClick}>
       <DistanceForm
