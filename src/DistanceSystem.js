@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { GoogleMap, DistanceMatrixService } from "@react-google-maps/api";
 import DistanceForm from "./DistanceForm";
 import RouteList from "./RouteList";
 import audio from "./sound/alert.mp3"
 
+
 function countdown(routeId) {
   var startTime = new Date().getTime();
-  var endTime = startTime + 1 * 11 * 1000;
+  var endTime = startTime + 20 * 60 * 1000;
   var interval;
   var sound = new Audio(audio);
   function updateTimer() {
@@ -46,10 +47,10 @@ const DistanceSystem = () => {
   const [origin, setOrigin] = useState("");//başlangıç noktası
   const [destination, setDestination] = useState("");//varış noktası
   const [distance, setDistance] = useState(null);//mesafe
-  const [originSuggestions, setOriginSuggestions] = useState([]); //başlangıç noktası önerileri
   const [destinationSuggestions, setDestinationSuggestions] = useState([]); //varış noktası önerileri
   const [routes, setRoutes] = useState([]); // mesafemiz
-
+  const [directions, setDirections] = useState(null);
+  const [originAddress, setOriginAddress] = useState(""); // Başlangıç adresini burada saklayacağız
   const getSuggestions = (input, callback) => {
     const options = {
       componentRestrictions: { country: "tr" },
@@ -61,14 +62,23 @@ const DistanceSystem = () => {
     service.getPlacePredictions({ input }, callback);
   };
 
-  const handleOriginChange = (value) => {
-    setOrigin(value);
-    getSuggestions(value, (predictions, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        setOriginSuggestions(predictions);
-      }
-    });
-  };
+  useEffect(() => {
+    // Sayfa yüklendiğinde kullanıcının mevcut konumunu al
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setOrigin(`${position.coords.latitude}, ${position.coords.longitude}`);
+         
+        // Kullanıcının konumunu koordinatlardan adres olarak al
+        const geocoder = new window.google.maps.Geocoder();
+        const latLng = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        geocoder.geocode({ location: latLng }, (results, status) => {
+          if (status === "OK" && results[0]) {
+            setOriginAddress(results[0].formatted_address);
+          }
+        });
+      });
+    }
+  }, []);
 
   const handleDestinationChange = (value) => {
     setDestination(value);
@@ -79,21 +89,25 @@ const DistanceSystem = () => {
     });
   };
 
-  const handleOriginSuggestionClick = (suggestion) => {
-    setOrigin(suggestion.description);
-    setOriginSuggestions([]);
-  };
-
   const handleDestinationSuggestionClick = (suggestion) => {
     setDestination(suggestion.description);
     setDestinationSuggestions([]);
   };
+  
 
   const calculateDistance = () => {
-    if (!origin || !destination) {
-      alert("Başlangıç ve varış noktalarını doldurun.");
+    if (!destination) {
+      alert("Varış Noktasını Doldurun!");
       return;
     }
+    
+    const isDestinationExists = routes.some((route) => route.destination === destination);
+    
+  if (isDestinationExists) {
+    alert("Bu varış noktası zaten eklenmiş!");
+    return;
+  }
+
     const service = new window.google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
       {
@@ -102,8 +116,14 @@ const DistanceSystem = () => {
         travelMode: travelMode,
       },
       (response, status) => {
+        if(response.rows[0].elements[0].distance === undefined){
+          alert("Konuma izin vermelisiniz!");
+          return;
+          
+        }
         if (status === "OK") {
           const newDistance = response.rows[0].elements[0].distance.text;
+         
           const newRoute = {
             origin: origin,
             destination: destination,
@@ -113,6 +133,21 @@ const DistanceSystem = () => {
           setRoutes((prevRoutes) => [...prevRoutes, newRoute]);
           setDistance(newDistance);
           countdown(newRoute.id);
+            const directionsService = new window.google.maps.DirectionsService();
+        directionsService.route(
+          {
+            origin: origin,
+            destination: destination,
+            travelMode: travelMode,
+          },
+          (response, status) => {
+            if (status === "OK") {
+              setDirections(response);
+            } else {
+              console.error("Error fetching directions:", status);
+            }
+          }
+        );
         } else {
           console.log("Distance calculation failed with status:", status);
         }
@@ -120,33 +155,31 @@ const DistanceSystem = () => {
     );
   };
   const handleMapClick = () => {
-    setOriginSuggestions([]);
     setDestinationSuggestions([]);
   };
   const clearRoutes = () => {
     setRoutes([]);
-   
+    setDirections(null);  
+    setDestination("");
   };
-  function clearCountdowns() {
-
-  
-  }
 
   return (
     <div className="map p-0" onClick={handleMapClick}>
       <DistanceForm
         origin={origin}
-        originSuggestions={originSuggestions}
         destination={destination}
         destinationSuggestions={destinationSuggestions}
-        onOriginChange={handleOriginChange}
         onDestinationChange={handleDestinationChange}
-        onOriginSuggestionClick={handleOriginSuggestionClick}
         onDestinationSuggestionClick={handleDestinationSuggestionClick}
         calculateDistance={calculateDistance}
         clearRoutes={clearRoutes}
       />
-      <RouteList routes={routes} />
+      <RouteList 
+      routes={routes} 
+      directions={directions} 
+      setDirections={setDirections} 
+        originAddress={originAddress}
+         distance={distance} />
     </div>
   );
 };

@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { GoogleMap, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 
-const DirectionsMap = ({ origin, destination }) => {
-  const [directions, setDirections] = useState(null);
-  const [routeColor, setRouteColor] = useState("green"); // Default color
+const DirectionsMap = ({ routes ,distance, routeColor }) => {
+  const [directionsData, setDirectionsData] = useState([]);
 
   useEffect(() => {
-    if (origin && destination) {
+    // Her bir rota için DirectionsService kullanarak rota bilgilerini alın
+    const fetchDirections = async () => {
+      const directions = [];
+
+      for (const route of routes) {
+        const response = await getDirections(route.origin, route.destination);
+        if (response.status === "OK") {
+          directions.push({ ...response, color: getColorForRoute(route.distance) });
+        }
+      }
+
+      setDirectionsData(directions);
+    };
+
+    fetchDirections();
+  }, [routes]);
+
+  const getDirections = (origin, destination) => {
+    return new Promise((resolve) => {
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route(
         {
@@ -15,42 +32,36 @@ const DirectionsMap = ({ origin, destination }) => {
           travelMode: "DRIVING",
         },
         (response, status) => {
-          if (status === "OK") {
-            const distanceInKm = response.routes[0].legs[0].distance.value / 1000;
-
-            if (distanceInKm > 10) {
-              setRouteColor("red");
-            } else {
-              setRouteColor("green");
-            }
-
-            setDirections(response);
-          } else {
-            console.error("Error fetching directions:", status);
-          }
+          resolve({ response, status });
         }
       );
-    }
-  }, [origin, destination]);
+    });
+  };
+
+  const getColorForRoute = (distance) => {
+    const numericDistance = parseFloat(distance);
+    return numericDistance > 15 ? "red" : "green";
+  };
 
   return (
-    <div className="mapOptions">
-      <GoogleMap
-        center={origin}
-        zoom={500}
-        mapContainerStyle={{ width: "100%", height: "100%" }}
-      >
-        {directions && (
-          <DirectionsRenderer
-            directions={directions}
-            options={{
-              polylineOptions: {
-                strokeColor: routeColor,
-              },
-            }}
-          />
-        )}
-      </GoogleMap>
+  <div className="mapOptions">
+    <GoogleMap
+      center={origin} // Haritayı bir başlangıç noktasına merkezleyebilirsiniz.
+      zoom={10}
+      mapContainerStyle={{ width: "100%", height: "100%" }}
+    >
+      {directionsData.map((directions, index) => (
+        <DirectionsRenderer
+          key={index}
+          directions={directions.response}
+          options={{
+            polylineOptions: {
+              strokeColor: directions.color, // Rota çizgisinin rengi
+            },
+          }}
+        />
+      ))}
+    </GoogleMap>
     </div>
   );
 };

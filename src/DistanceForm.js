@@ -16,36 +16,12 @@ const DistanceForm = ({
   return (
     <div>
       <Row className="mt-4">
-        <Col span={7} >
-          <div className="form-group form">
-            <label htmlFor="ORIGIN" className="text-white">Başlangıç Noktası</label>
-            <br />
-            <input
-              id="ORIGIN"
-              className="form-control"
-              type="text"
-              value={origin}
-              onChange={(e) => onOriginChange(e.target.value)}
-              required
-            />
-            <div className="suggestion-list">
-              {originSuggestions.map((suggestion) => (
-                <div
-                  className="suggestion-item"
-                  key={suggestion.place_id}
-                  onClick={() => onOriginSuggestionClick(suggestion)}
-                >
-                  {suggestion.description}
-                </div>
-              ))}
-            </div>
-          </div>
-        </Col>
-        <Col span={7} className="ml-4">
+        <Col span={7}>
           <div className="form-group">
             <label className="text-white">Varış Noktası</label>
             <br />
             <input
+              id="destinationId"
               className="form-control"
               type="text"
               value={destination}
