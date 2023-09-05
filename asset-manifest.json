@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/react-ticket-slip-project/static/css/main.927e781a.css",
-    "main.js": "/react-ticket-slip-project/static/js/main.b1b7ad74.js",
+    "main.css": "/react-ticket-slip-project/static/css/main.d34df055.css",
+    "main.js": "/react-ticket-slip-project/static/js/main.d4302958.js",
     "static/js/787.2434a8b5.chunk.js": "/react-ticket-slip-project/static/js/787.2434a8b5.chunk.js",
     "static/media/courier.jpg": "/react-ticket-slip-project/static/media/courier.98139e6326bcfd834002.jpg",
     "static/media/alert.mp3": "/react-ticket-slip-project/static/media/alert.c225090169354b08b471.mp3",
     "index.html": "/react-ticket-slip-project/index.html",
-    "main.927e781a.css.map": "/react-ticket-slip-project/static/css/main.927e781a.css.map",
-    "main.b1b7ad74.js.map": "/react-ticket-slip-project/static/js/main.b1b7ad74.js.map",
+    "main.d34df055.css.map": "/react-ticket-slip-project/static/css/main.d34df055.css.map",
+    "main.d4302958.js.map": "/react-ticket-slip-project/static/js/main.d4302958.js.map",
     "787.2434a8b5.chunk.js.map": "/react-ticket-slip-project/static/js/787.2434a8b5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.927e781a.css",
-    "static/js/main.b1b7ad74.js"
+    "static/css/main.d34df055.css",
+    "static/js/main.d4302958.js"
   ]
 }
